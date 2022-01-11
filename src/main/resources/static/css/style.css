@@ -1,0 +1,13 @@
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css');
+/*@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css');*/
+
+
+body {
+    color: black;
+}
+
+table {
+    background: whitesmoke;
+    /*color: chocolate; */
+}
+

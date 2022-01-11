@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Friends Hotel Management</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<!------ -------------------------------------------------- ------>
+<!------ EVENTS MANAGEMENT = "Full Script (All Events) for" ------>
+<!------ -------------------------------------------------- ------>
+<!-- HEADER -->
+<p>&nbsp;</p>
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+    <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+    <p class="text-secondary">
+      <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+      Today is <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
+      <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+    </p>
+  </nav>
+</div>
+<div class="container">
+  <nav class="navbar navbar-expand navbar-light bg-light d-flex">
+    <a th:href="@{/}" class="navbar-brand">Home</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a th:href="@{/showCurrentEventsForAllVisits}" class="nav-link bg-success text-white">Awaiting&nbsp;Events</a>
+        </li>
+        <li class="nav-item"><span>&nbsp;</span></li>
+        <li class="nav-item">
+          <a th:href="@{/showAllEventsForAllVisits}" class="nav-link text-success">All&nbsp;Events</a>
+        </li>
+        <li class="nav-item"><span>&nbsp;</span></li>
+        <li class="nav-item">
+          <a th:href="@{/showAllVisits}" class="nav-link text-primary">All&nbsp;Visits</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/showNewVisitForm}" class="nav-link  text-primary">New&nbsp;Visit</a>
+        </li>
+        <li class="nav-item">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+      </ul>
+      <span th:inline="text" class="text-white bg-info font-italic">&nbsp;Hello,&nbsp;[[${#httpServletRequest.remoteUser}]]!&nbsp;</span>
+      <span>&nbsp;&nbsp;</span>
+      <a th:href="@{/logout}" class="btn btn-sm btn-outline-info">Sign&nbsp;out</a>
+    </div>
+  </nav>
+</div>
+<!--END OF HEADER-->
+<main>
+  <div class="container">
+    <p>&nbsp;</p>
+    <div th:if="${weSee=='SELECTIVE'}">
+      <h4><span class="text-danger">Awaits Events</span> for
+        <a th:href="@{/showVisitPage/__${visit.id}__}" class="btn btn-outline-primary">Visit ID <span th:text="${visit.id}"></span></a>
+      </h4>
+    </div>
+    <div th:if="${weSee=='ALL'}">
+      <h4>Full Script (<span class="text-success">All Events</span>) for:
+        <a th:href="@{/showVisitPage/__${visit.id}__}" class="btn btn-outline-primary">Visit ID <span th:text="${visit.id}"></span></a>
+      </h4>
+    </div>
+    <div th:if="${visit.activeStatus==true}">
+      <h5 class="">Visit <span class="text-dark">Status:</span> <span class="text-primary">ACTIVE</span></h5>
+    </div>
+    <div th:if="${visit.activeStatus==false}">
+      <h5 class="">Visit <span class="text-dark">Status:</span> <span class="text-secondary">CHECKED OUT</span></h5>
+    </div>
+    <h5 class="text-dark">Box: <span class="text-info" th:text="${visit.boxNumber}"></span></h5>
+    <h5 class="text-dark">Pet Name: <span class="text-info" th:text="${visit.petName}"></span></h5>
+    <div th:if="${weSee=='ALL'}">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <form novalidate action="#" th:action="@{/saveEventForVisit/__${visit.id}__}" th:object="${event}" method="POST">
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{eventStatus}" />
+        <input type="hidden" th:field="*{user}" />
+        <div class="form-group row">
+          <label for="description" class="col-sm-3 col-form-label">Description</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" th:field="*{eventDescription}" id="description" placeholder="Description"
+                   required="true">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="eventDate" class="col-sm-3 col-form-label">Date</label>
+          <div class="col-sm-9">
+            <input type="date" class="form-control" th:field="*{eventDate}" id="eventDate" placeholder="Event Date"
+                   required="true">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="goTime" class="col-sm-3 col-form-label">Time</label>
+          <div class="col-sm-9">
+            <input type="time" class="form-control" th:field="*{goTime}" id="goTime" placeholder="goTime"
+                   required="true">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="eventNotes" class="col-sm-3 col-form-label">Notes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" th:field="*{eventNotes}" id="eventNotes" placeholder="Notes">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-outline-success btn btn-block">Add New Event</button>
+      </form>
+    </div> <!-- IF BLOCK -->
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <!-- TABLE OF THE SCRIPT (LIST OF EVENTS) -->
+
+    <table class="table table-bordered table-striped table-hover table-responsive-md">
+      <thead>
+      <tr>
+        <th style="width: 6%">ID</th>             <!-- -1 -->
+        <th style="width: 8%">Status</th>         <!-- 2 -->
+        <th style="width: 39%">Description</th>    <!-- 3 -->
+        <th style="width: 12%">Date</th>           <!-- 4 -->
+        <th style="width: 5%">Time</th>           <!-- 5 -->
+        <div th:if="${weSee=='SELECTIVE'}">
+             <th style="width: 30%">Notes</th>     <!-- 6 -->
+        </div>
+        <div th:if="${weSee=='ALL'}">
+            <th style="width: 20%">Notes</th>      <!-- 7 -->
+            <th style="width: 5%"></th>           <!-- 8 -->
+            <th style="width: 5%"></th>           <!-- 9 -->
+        </div>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="event : ${listSelectiveEvents}">
+
+        <!-- -1 -->
+        <td th:text="${event.id}"></td>
+
+        <!-- 2 -->
+        <div th:if="${event.eventStatus==event.eventStatus.AWAIT}">
+          <TD><span class="text-danger">AWAIT</span></TD>
+        </div>
+        <!-- 2 -->
+        <div th:if="${event.eventStatus==event.eventStatus.DONE}">
+          <TD><span class="text-success">DONE</span></TD>
+        </div>
+        <!-- 2 -->
+        <div th:if="${event.eventStatus==event.eventStatus.MISSED}">
+          <TD><span class="text-warning">MISSED</span></TD>
+        </div>
+
+        <!-- 3 -->
+        <td th:text="${event.eventDescription}"></td>
+
+        <!-- 4 -->
+        <td th:text="${#dates.format(event.eventDate, 'dd-MM-yy')}"></td>
+
+        <!-- 5 -->
+        <td th:text="${#dates.format(event.startTime, 'HH:mm')}"></td>
+
+        <!-- 6 and 7 -->
+        <td th:text="${event.eventNotes}"></td>
+
+        <!-- 8 -->
+        <div th:if="${weSee=='ALL'}">
+          <td>
+            <a th:href="@{/showEventPage/{id}(id=${event.id})}" class="btn btn-sm btn-success">Update</a>
+          </td>
+
+        <!-- 9 -->
+          <td>
+             <a th:href="@{/cloneEvent/{id}(id=${event.id})}" class="btn btn-sm btn-outline-success">Clone</a>
+          </td>
+        </div>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<!--FOOTER-0.2-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+  <div class="">
+    <div class="container" style="height: fit-content">
+      <div class="row py-3 d-flex align-items-center">
+        <div class="col-md-12 text-center">
+          <img src="/img/pyato-3-hor.png" width="50" height="50">
+          <span class="nav-item text-secondary" href="#">
+                        <span class="text-secondary">pet's hotel management system |</span>
+                        <a th:href="@{/help}">
+                            <span class="text-info">help</span>
+                        </a>
+                        <span class="text-secondary"> | </span>
+                        <a th:href="@{/contact}">
+                            <span class="text-secondary">contact</span>
+                        </a>
+                    </span>
+          <img src="/img/pyato-2-hor.png" width="50" height="50">
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>

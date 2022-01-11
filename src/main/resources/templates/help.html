@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Friends Hotel Management</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<!-- HEADER (ver) -->
+<p>&nbsp;</p>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+        <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+        <p class="text-secondary">
+            <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+            Today is <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
+            <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+        </p>
+    </nav>
+</div>
+<div class="container">
+    <nav class="navbar navbar-expand navbar-light bg-light d-flex">
+        <a th:href="@{/}" class="navbar-brand">Home</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </li>
+            </ul>
+            <span th:inline="text" class="text-white bg-info font-italic">&nbsp;Hello,&nbsp;[[${#httpServletRequest.remoteUser}]]!&nbsp;</span>
+            <span>&nbsp;&nbsp;</span>
+            <a th:href="@{/logout}" class="btn btn-sm btn-outline-info">Sign&nbsp;out</a>
+        </div>
+    </nav>
+</div>
+<!--END OF HEADER-->
+<p>&nbsp;</p>
+<div class="container d-flex justify-content-center" style="width: 700px;">
+
+    <p class="text-dark">
+        The basic entity of the system is a <span class="text-primary">VISIT</span>.
+    For instance, mister Theo is going on vacation and wants to leave
+    his beloved cat Mruczek at the Pets Hotel for a while. Welcome, cat Mruczek!
+        So, the process of a Mruczek's stay in the hotel is a VISIT.
+    Our new visitor settles in a separate "room", which we call a BOX.
+    Now the most important thing. Our visitor is an unusual guest!
+    He is a cat! The cat needs care and attention:
+    he needs to be fed, watered, and the box must be cleaned regularly...
+    Each such activity (feeding, drinking, cleaning, combing, etc.)
+        is called an <span class="text-success">EVENT</span> in our system.
+        And the aggregation of such events constitutes the SCRIPT
+        of the VISIT.
+    </p>
+</div>
+<div class="container d-flex justify-content-center">
+    <img src="/img/help0.png" width="800" height="806">
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="container d-flex justify-content-center">
+    <img src="/img/help1.png" width="1000" height="955">
+</div>
+<div class="container d-flex justify-content-center">
+    <img src="/img/help2.png" width="1000" height="921">
+</div>
+<p>&nbsp;</p>
+<div class="container d-flex justify-content-center">
+    <img src="/img/help3.png" width="1000" height="887">
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<!--  Hello, if you are not an administrator you can not get              -->
+<!--  access to admin panel in any case: it's a matter of authentication  -->
+<div class="container d-flex justify-content-center">
+    <div th:if="${user.username == adminName}">
+        <a th:href="@{/admin}" class="btn btn-sm btn-outline-secondary">Admin panel</a>
+    </div>
+</div>
+<div class="container d-flex justify-content-center">
+    <div th:if="${user.username != adminName}">
+        <a th:href="@{/admin}" class="btn btn-sm btn-outline-secondary disabled">Admin panel</a>
+    </div>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<!--FOOTER-0.2-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+    <div class="">
+        <div class="container" style="height: fit-content">
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-12 text-center">
+                    <img src="/img/pyato-3-hor.png" width="50" height="50">
+                    <span class="nav-item text-secondary" href="#">
+                        <span class="text-secondary">pet's hotel management system |</span>
+                        <a th:href="@{/help}">
+                            <span class="text-info">help</span>
+                        </a>
+                        <span class="text-secondary"> | </span>
+                        <a th:href="@{/contact}">
+                            <span class="text-secondary">contact</span>
+                        </a>
+                    </span>
+                    <img src="/img/pyato-2-hor.png" width="50" height="50">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>

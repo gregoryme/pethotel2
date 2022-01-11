@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Friends Hotel Management</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<!------ -------------------- ------>
+<!------- ADMIN PANEL ver 0.1 ------->
+<!------ -------------------- ------>
+<!-- HEADER (ver) -->
+<p>&nbsp;</p>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+        <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+        <p class="text-secondary">
+            <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+            Today is <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
+            <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+        </p>
+    </nav>
+</div>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a th:href="@{/}" class="navbar-brand">Home</a>
+        <div class="navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <span> </span>
+            </ul>
+            <span th:inline="text" class="text-white bg-info font-italic">&nbsp;Hello, [[${#httpServletRequest.remoteUser}]]!&nbsp;</span>
+            <span>&nbsp;&nbsp;</span>
+            <a th:href="@{/logout}" class="btn btn-sm btn-outline-info">Sign out</a>
+        </div>
+    </nav>
+</div>
+<!--END OF HEADER-->
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="container">
+    <h4 class="text-info">ADMIN PANEL ver 0.1</h4>
+</div>
+<p>&nbsp;</p>
+<div class="container">
+    <h4>List of all users</h4>
+</div>
+<div class="container">
+    <p>&nbsp;</p>
+    <table class="table table-bordered  table-striped table-hover table-responsive-md">
+        <thead>
+        <tr>
+            <th style="width: 15%">user id</th>    <!--1-->
+            <th style="width: 55%">user name</th>  <!--2-->
+            <th style="width: 15%">user magic</th> <!--3-->
+            <th style="width: 15%"></th>           <!--4-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${listOfAllUsers}">
+            <!--1-->
+            <td th:text="${user.id}"></td>
+            <!--2-->
+            <td th:text="${user.username}"></td>
+            <!--3-->
+            <td th:text="${user.magic}"></td>
+            <!--4-->
+            <td>
+                <a th:href="@{/admin/magic/{userName}(userName=${user.username})}"
+                   class="btn btn-sm btn-outline-success">Magic Restore</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="container">
+    <h4>List of all visits for all users</h4>
+</div>
+<div class="container">
+    <p>&nbsp;</p>
+    <table class="table table-bordered  table-striped table-hover table-responsive-md">
+        <thead>
+        <tr>
+            <th style="width: 10%">visit id</th>   <!--1-->
+            <th style="width: 55%">user name</th>  <!--2-->
+            <th style="width: 10%">user id</th>    <!--3-->
+            <th style="width: 15%">user magic</th> <!--4-->
+            <th style="width: 10%"></th>           <!--5-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="visit : ${listAllVisits}">
+            <!--1-->
+            <td th:text="${visit.id}"></td>
+            <!--2-->
+            <td th:text="${visit.user.username}"></td>
+            <!--3-->
+            <td th:text="${visit.user.id}"></td>
+            <!--4-->
+            <td th:text="${visit.user.magic}"></td>
+            <!--5-->
+            <td>
+                <a th:href="@{/admin/{id}(id=${visit.id})}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</div>
+<!--FOOTER-0.2-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+    <div class="">
+        <div class="container" style="height: fit-content">
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-12 text-center">
+                    <img src="/img/pyato-3-hor.png" width="50" height="50">
+                    <span class="nav-item text-secondary" href="#">
+                        <span class="text-secondary">pet's hotel management system |</span>
+                        <a th:href="@{/help}">
+                            <span class="text-info">help</span>
+                        </a>
+                        <span class="text-secondary"> | </span>
+                        <a th:href="@{/contact}">
+                            <span class="text-secondary">contact</span>
+                        </a>
+                    </span>
+                    <img src="/img/pyato-2-hor.png" width="50" height="50">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>

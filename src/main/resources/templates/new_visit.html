@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Visit</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<!--HEADER-->
+<p>&nbsp;</p>
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+    <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+    <p class="text-secondary">
+      <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+      Today is <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
+      <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+    </p>
+  </nav>
+</div>
+<div class="container">
+    <nav class="navbar navbar-expand navbar-light bg-light d-flex">
+        <a th:href="@{/}" class="navbar-brand">Home</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a th:href="@{/showCurrentEventsForAllVisits}" class="nav-link bg-success text-white">Awaiting&nbsp;Events</a>
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                    <a th:href="@{/showAllEventsForAllVisits}" class="nav-link text-success">All&nbsp;Events</a>
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                    <a th:href="@{/showAllVisits}" class="nav-link text-primary">All&nbsp;Visits</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/showNewVisitForm}" class="nav-link  text-primary">New&nbsp;Visit</a>
+                </li>
+                <li class="nav-item">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </li>
+            </ul>
+            <span th:inline="text" class="text-white bg-info font-italic">&nbsp;Hello,&nbsp;[[${#httpServletRequest.remoteUser}]]!&nbsp;</span>
+            <span>&nbsp;&nbsp;</span>
+            <a th:href="@{/logout}" class="btn btn-sm btn-outline-info">Sign&nbsp;out</a>
+        </div>
+    </nav>
+</div>
+<!--END OF HEADER-->
+<main>
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-8 col-md-6">
+            <p>&nbsp;</p>
+            <h3 class="text-primary">New Visit</h3>
+            <p>&nbsp;</p>
+            <form action="#" th:action="@{/saveVisit}" th:object="${visit}" method="POST">
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{activeStatus}" />
+                <input type="hidden" th:field="*{user}" />
+                <div class="form-group row">
+                    <label for="petName" class="col-sm-3 col-form-label">Pet&nbsp;Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" th:field="*{petName}" id="petName" placeholder="Pet Name"
+                               required="true">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="boxNumber" class="col-sm-3 col-form-label">Box&nbsp;Number</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" th:field="*{boxNumber}" id="boxNumber" placeholder="Box Number"
+                               required="true">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="ownerName" class="col-sm-3 col-form-label">Owner&nbsp;Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" th:field="*{ownerName}" id="ownerName" placeholder="Owner Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="ownerContact" class="col-sm-3 col-form-label">Owner&nbsp;Contact</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" th:field="*{ownerContact}" id="ownerContact" placeholder="Owner Contact">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="checkInDate" class="col-sm-3 col-form-label">CHECK&nbsp;IN</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" th:field="*{checkInDate}" id="checkInDate" placeholder="checkInDate">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="checkOutDate" class="col-sm-3 col-form-label">CHECK&nbsp;OUT</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" th:field="*{checkOutDate}" id="checkOutDate" placeholder="checkOutDate">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="notes" class="col-sm-3 col-form-label">Notes</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" th:field="*{visitNotes}" id="notes" placeholder="Notes">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Save New Visit</button>
+            </form>
+            <p>&nbsp;</p>
+            <hr>
+        </div>
+        <div class="col-8 col-md-6">
+            <img src="/img/cat.png" width="400" height="217">
+        </div>
+    </div>
+</div>
+</main>
+<p>&nbsp;</p><p>&nbsp;</p>
+<p>&nbsp;</p><p>&nbsp;</p>
+<p>&nbsp;</p><p>&nbsp;</p>
+<!--FOOTER-0.2-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+    <div class="">
+        <div class="container" style="height: fit-content">
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-12 text-center">
+                    <img src="/img/pyato-3-hor.png" width="50" height="50">
+                    <span class="nav-item text-secondary" href="#">
+                        <span class="text-secondary">pet's hotel management system |</span>
+                        <a th:href="@{/help}">
+                            <span class="text-info">help</span>
+                        </a>
+                        <span class="text-secondary"> | </span>
+                        <a th:href="@{/contact}">
+                            <span class="text-secondary">contact</span>
+                        </a>
+                    </span>
+                    <img src="/img/pyato-2-hor.png" width="50" height="50">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>

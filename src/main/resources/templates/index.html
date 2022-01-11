@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Friends Hotel Management</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- HEADER -->
+<p>&nbsp;</p>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+        <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+        <p class="text-secondary">
+            <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+            Today is <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">1 Mart 2020</span>
+            <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+        </p>
+    </nav>
+</div>
+<div class="container">
+    <nav class="navbar navbar-expand navbar-light bg-light d-flex">
+        <a th:href="@{/}" class="navbar-brand">Home</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a th:href="@{/showCurrentEventsForAllVisits}" class="nav-link bg-success text-white">Awaiting&nbsp;Events</a>
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                    <a th:href="@{/showAllEventsForAllVisits}" class="nav-link text-success">All&nbsp;Events</a>
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                    <a th:href="@{/showAllVisits}" class="nav-link text-primary">All&nbsp;Visits</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/showNewVisitForm}" class="nav-link  text-primary">New&nbsp;Visit</a>
+                </li>
+                <li class="nav-item">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </li>
+            </ul>
+            <span th:inline="text" class="text-white bg-info font-italic">&nbsp;Hello,&nbsp;[[${#httpServletRequest.remoteUser}]]!&nbsp;</span>
+            <span>&nbsp;&nbsp;</span>
+            <a th:href="@{/logout}" class="btn btn-sm btn-outline-info">Sign&nbsp;out</a>
+        </div>
+    </nav>
+</div>
+<!-- END OF HEADER -->
+<main>
+    <div class="container">
+        <p>&nbsp;</p>
+        <!-- Reserved -->
+        <!-- <span><a href="/admin">Administration panel</a></span> -->
+        <p>&nbsp;</p>
+        <h3 class="text-primary">Active visit List</h3>
+        <p>&nbsp;</p>
+        <a th:href="@{/showNewVisitForm}" class="btn btn-primary mb-3">&nbsp;&nbsp;&nbsp;New Visit&nbsp;&nbsp;&nbsp;</a>
+        <!--Magic matter-->
+        <span th:if="${magic=='OK'}">
+            <a th:href="@{/generate}" class="btn btn-warning mb-3 align-content-end">Magic:)</a>
+        </span>
+        <span th:if="${magic=='NOT'}">
+            <a th:href="@{/generate}" class="btn btn-warning mb-3 align-content-end disabled">Magic:)</a>
+        </span>
+        <!--End of Magic matter-->
+        <table class="table table-bordered table-striped table-hover table-responsive-md">
+            <thead>
+            <tr>
+                <th style="width: 6%">ID</th>          <!-- -1 -->
+                <th style="width: 9%">Status</th>      <!--  0 -->
+                <th style="width: 19%">Pet&nbsp;Name</th>   <!--  1 -->
+                <th style="width: 15%">Box</th>        <!--  2 -->
+                <th style="width: 10%">Check&nbsp;In</th>   <!--  3 -->
+                <th style="width: 10%">Check&nbsp;Out</th>  <!--  4 -->
+                <th style="width: 26%">Owner&nbsp;Name</th> <!--  5 -->
+                <th style="width: 5%"></th>            <!--  6 -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="visit : ${listAllVisits}">
+                <!-- -1 -->
+                <td th:text="${visit.id}"></td>
+                <!-- 0 -->
+                <div th:if="${visit.activeStatus==true}">
+                    <td class="text-primary">ACTIVE</td>
+                </div>
+                <!-- 0 -->
+                <div th:if="${visit.activeStatus==false}">
+                    <td class="ttext-dark">CHECKED&nbsp;OUT</td>
+                </div>
+                <!-- 1 -->
+                <td th:text="${visit.petName}"></td>
+                <!-- 2 -->
+                <td th:text="${visit.boxNumber}"></td>
+                <!-- 3 -->
+                <td th:text="${#dates.format(visit.checkInDate, 'dd-MM-yy')}"></td>
+                <!-- 4 -->
+                <td th:text="${#dates.format(visit.checkOutDate, 'dd-MM-yy')}"></td>
+                <!-- 5 -->
+                <td th:text="${visit.ownerName}"></td>
+                <!-- 6 -->
+                <td>
+                    <a th:href="@{/showVisitPage/{id}(id=${visit.id})}" class="btn btn-sm btn-outline-primary">Info</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table class="table table-sm table-light">
+            <tbody>
+            <tr>
+                <td><div class="d-flex justify-content-center"><img src="/img/d1.png" width="100"></div></td>
+                <td><div class="d-flex justify-content-center"><img src="/img/c1.png" width="100"></div></td>
+                <td><div class="d-flex justify-content-center"><img src="/img/d2.png" width="100"></div></td>
+                <td><div class="d-flex justify-content-center"><img src="/img/c2.png" width="100"></div></td>
+                <td><div class="d-flex justify-content-center"><img src="/img/d3.png" width="100"></div></td>
+                <td><div class="d-flex justify-content-center"><img src="/img/c3.png" width="100"></div></td>
+            </tr>
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    </div>
+</main>
+<!--FOOTER-0.2-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+    <div class="">
+        <div class="container" style="height: fit-content">
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-12 text-center">
+                    <img src="/img/pyato-3-hor.png" width="50" height="50">
+                    <span class="nav-item text-secondary" href="#">
+                        <span class="text-secondary">pet's hotel management system |</span>
+                        <a th:href="@{/help}">
+                            <span class="text-info">help</span>
+                        </a>
+                        <span class="text-secondary"> | </span>
+                        <a th:href="@{/contact}">
+                            <span class="text-secondary">contact</span>
+                        </a>
+                    </span>
+                    <img src="/img/pyato-2-hor.png" width="50" height="50">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>

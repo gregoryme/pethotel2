@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<link rel="stylesheet" href="css/style.css">
+<head>
+    <title>Pet Friends Hotel Management | Demo</title>
+</head>
+<body>
+<!-- HEADER -->
+<p>&nbsp;</p>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+        <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+        <p class="text-secondary">
+            <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+            Demo Version
+            <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+        </p>
+    </nav>
+</div>
+<main>
+    <p>&nbsp;</p>
+    <div class="d-flex justify-content-center" th:if="${signUpSuccess}">
+        <span class="text-success" th:text="*{signUpSuccess}"></span>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    </div>
+    <div class="d-flex justify-content-center" th:if="${param.error}">
+        <p class="text-danger">Sorry, there are invalid username and/or password :(</p>
+        <p>&nbsp;</p>
+    </div>
+    <div class="d-flex justify-content-center" th:if="${param.logout}">
+        <p class="text-primary">You have been logged out :) Thanks for using the system.</p>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <form method="POST" action="/login">
+            <div class="mb-3">
+                <label for="inputUserName" class="form-label">Login:</label>
+                <input name="username" type="text" autofocus="true" class="form-control" id="inputUserName" placeholder="Username">
+            </div>
+            <div class="mb-3">
+                <label for="inputPass" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" placeholder="Password" id="inputPass">
+            </div>
+            <button type="submit" class="btn btn-primary">Log In</button>
+            <a href="/registration" class="btn btn-outline-primary">Sign-Up</a>
+        </form>
+    </div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</main>
+<!--FOOTER-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+    <div class="">
+        <div class="container">
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-12 text-center">
+                    <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+                    <span class="nav-item text-secondary" href="#">pet's hotel management system</span>
+                    <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>

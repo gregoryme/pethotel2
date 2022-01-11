@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Update Visit Info</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+<!------ ---------------------------------- ------>
+<!------ -- EVENTS PAGE - "Event Editor" -- ------>
+<!------ ---------------------------------- ------>
+<!-- HEADER -->
+<p>&nbsp;</p>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+        <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+        <p class="text-secondary">
+            <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+            Today is <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
+            <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+        </p>
+    </nav>
+</div>
+<div class="container">
+    <nav class="navbar navbar-expand navbar-light bg-light d-flex">
+        <a th:href="@{/}" class="navbar-brand">Home</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a th:href="@{/showCurrentEventsForAllVisits}" class="nav-link bg-success text-white">Awaiting&nbsp;Events</a>
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                    <a th:href="@{/showAllEventsForAllVisits}" class="nav-link text-success">All&nbsp;Events</a>
+                </li>
+                <li class="nav-item"><span>&nbsp;</span></li>
+                <li class="nav-item">
+                    <a th:href="@{/showAllVisits}" class="nav-link text-primary">All&nbsp;Visits</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/showNewVisitForm}" class="nav-link  text-primary">New&nbsp;Visit</a>
+                </li>
+                <li class="nav-item">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </li>
+            </ul>
+            <span th:inline="text" class="text-white bg-info font-italic">&nbsp;Hello,&nbsp;[[${#httpServletRequest.remoteUser}]]!&nbsp;</span>
+            <span>&nbsp;&nbsp;</span>
+            <a th:href="@{/logout}" class="btn btn-sm btn-outline-info">Sign&nbsp;out</a>
+        </div>
+    </nav>
+</div>
+<!--END OF HEADER-->
+<main>
+    <div class="container">
+        <p>&nbsp;</p>
+        <h4 class="text-success">Event Editor</h4>
+        <h4>Script for:
+            <a th:href="@{/showVisitPage/__${event.visit.id}__}" class="btn btn-outline-primary btn">Visit ID <span th:text="${event.visit.id}"></span></a>
+        </h4>
+        <h5 class="text-dark">Box Number: <span class="text-muted" th:text="${event.visit.boxNumber}"></span></h5>
+        <h5 class="text-dark">Pet Name: <span class="text-muted" th:text="${event.visit.petName}"></span></h5>
+        <p>&nbsp;</p>
+        <div th:if="${event.eventStatus==event.eventStatus.AWAIT}">
+            <h5><span class="text-danger">EVENT STATUS: <B>AWAIT</B></span></h5>
+        </div>
+        <div th:if="${event.eventStatus==event.eventStatus.DONE}">
+            <h5><span class="text-success">EVENT STATUS: <B>DONE</B></span></h5>
+        </div>
+        <p>&nbsp;</p>
+        <div th:if="${event.eventStatus==event.eventStatus.AWAIT}">
+            <a th:href="@{/makeEventDone/{id}(id=${event.id})}"
+               class="btn btn btn-success">Mark Event Done!</a>
+        </div>
+        <div th:if="${event.eventStatus==event.eventStatus.DONE}">
+            <a th:href="@{/makeEventAwait/{id}(id=${event.id})}" class="btn btn btn-danger">Mark Event Await</a>
+        </div>
+        <p>&nbsp;</p>
+    <!--FORM NO VALIDATE--TIME-->
+        <form action="#" novalidate th:action="@{/saveEventForVisit/__${event.visit.id}__}" th:object="${event}" method="POST">
+          <input type="hidden" th:field="*{id}" />
+          <input type="hidden" th:field="*{eventStatus}" />
+          <input type="hidden" th:field="*{user}" />
+            <div class="form-group row">
+            <label for="description" class="col-sm-3 col-form-label">Description</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" th:field="*{eventDescription}" id="description" placeholder="Description"
+                           required="true">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="eventDate" class="col-sm-3 col-form-label">Date</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" th:field="*{eventDate}" id="eventDate" placeholder="Event Date"
+                           required="true">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="goTime" class="col-sm-3 col-form-label">Time</label>
+                <div class="col-sm-9">
+                    <input type="time" class="form-control" th:field="*{goTime}" id="goTime" placeholder="goTime"
+                           required="true">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="eventNotes" class="col-sm-3 col-form-label">Notes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" th:field="*{eventNotes}" id="eventNotes" placeholder="Notes">
+                </div>
+            </div>
+         <button type="submit" class="btn btn-outline-success btn-lg btn-block">Update Event</button>
+        </form>
+        <p>&nbsp;</p>
+        <!-- DELETE EVENT OPERATION (modal question) -->
+        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteEventModal">
+            Delete Event
+        </button>
+        <div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger" id="deleteEventModalLabel">ATTENTION!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-danger text-white">
+                        WARNING! You won't be able to restore this Event!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">&nbsp; &nbsp; Close without delete &nbsp; &nbsp;</button>
+                        <a th:href="@{/deleteEventOfVisit/__${event.id}__/__${event.visit.id}__}"   class="btn btn-danger" role="button">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END OF DELETE EVENT OPERATION -->
+    </div>
+</main>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<p>&nbsp;</p>  <p>&nbsp;</p>
+<!--FOOTER-0.2-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+    <div class="">
+        <div class="container" style="height: fit-content">
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-12 text-center">
+                    <img src="/img/pyato-3-hor.png" width="50" height="50">
+                    <span class="nav-item text-secondary" href="#">
+                        <span class="text-secondary">pet's hotel management system |</span>
+                        <a th:href="@{/help}">
+                            <span class="text-info">help</span>
+                        </a>
+                        <span class="text-secondary"> | </span>
+                        <a th:href="@{/contact}">
+                            <span class="text-secondary">contact</span>
+                        </a>
+                    </span>
+                    <img src="/img/pyato-2-hor.png" width="50" height="50">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>

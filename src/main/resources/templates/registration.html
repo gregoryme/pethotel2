@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="css/style.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Friends Hotel Management | Sign Up</title>
+</head>
+<body>
+<!-- HEADER -->
+<p>&nbsp;</p>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
+        <a href="/"><img src="/img/logotext-2.png" width="450" height="72"></a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center text-secondary">
+        <p class="text-secondary">
+            <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+            Demo Version
+            <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+        </p>
+    </nav>
+</div>
+<!-- END OF THE HEADER -->
+<div class="container">
+    <p>&nbsp;</p>
+    <div class="d-flex justify-content-center">
+        <div th:if="${usernameError}">
+            <span class="text-danger" th:text="*{usernameError}"></span>
+            <p>&nbsp;</p>
+        </div>
+        <div th:if="${passwordError}">
+            <span class="text-danger"  th:text="*{passwordError}"></span>
+            <p>&nbsp;</p>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <p>&nbsp;</p>
+        <h3 class="text-primary">Registration</h3>
+        <p>&nbsp;</p>
+    </div>
+    <p>&nbsp;</p>
+    <div class="d-flex justify-content-center">
+        <form action="#" th:action="@{/registration}" th:object="${user}" method="post" class="form" style="width: 550px;">
+            <div class="form-group">
+                <label for="username">Name</label>
+                <input class="form-control" type="text" th:field="*{username}" id="username" placeholder="Name">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" type="password" th:field="*{password}" id="password" placeholder="Password">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+            <div class="form-group">
+                <label for="passwordConfirm">Repeat your password, please</label>
+                <input class="form-control" type="password" th:field="*{passwordConfirm}" id="passwordConfirm" placeholder="Password confirm">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></div>
+            </div>
+            <input type="submit"  class="btn btn-primary" value="Sign Up!">
+        </form>
+    </div>
+    <p>&nbsp;</p><p>&nbsp;</p>
+    <div class="d-flex justify-content-center">
+        <img src="/img/cat.png" width="250" height="136">
+    </div>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<!--FOOTER-->
+<footer class="page-footer bg-light bg-opacity-50 fixed-bottom">
+    <div class="">
+        <div class="container">
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-12 text-center">
+                    <a href="/"><img src="/img/pyato-3-hor.png" width="50" height="50"></a>
+                    <span class="nav-item text-secondary" href="#">pet's hotel management system</span>
+                    <a href="/"><img src="/img/pyato-2-hor.png" width="50" height="50"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--END-OF-FOOTER-->
+</body>
+</html>
